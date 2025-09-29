@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { BsFillPlayFill } from "react-icons/bs";
-import { FiChevronDown, FiPlus } from "react-icons/fi";
+import { FiChevronDown, FiPlus, FiThumbsDown, FiThumbsUp } from "react-icons/fi";
 import { VscChevronLeft, VscChevronRight } from "react-icons/vsc";
 
 type RowItem = {
@@ -12,6 +12,7 @@ const RowTemplate: React.FC<RowItem> = ({ category, endpoint }) => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [scrolled, setScrolled] = useState<boolean>(false);
 
+  // Movie object
   const [movies, setMovies] = useState<
     {
       name: string;
@@ -22,6 +23,7 @@ const RowTemplate: React.FC<RowItem> = ({ category, endpoint }) => {
     }[]
   >([]);
 
+  // Fetch movie endpoints
   useEffect(() => {
     const fetchMovies = async () => {
       try {
@@ -35,11 +37,13 @@ const RowTemplate: React.FC<RowItem> = ({ category, endpoint }) => {
     fetchMovies();
   }, [endpoint]);
 
+  // Scroll effect for movie row
   const handleScroll = () => {
     if (!scrollRef.current) return;
     setScrolled(scrollRef.current.scrollLeft > 5);
   };
 
+  // Add and cleanup scroll function
   useEffect(() => {
     const container = scrollRef.current;
     if (container) {
@@ -53,6 +57,7 @@ const RowTemplate: React.FC<RowItem> = ({ category, endpoint }) => {
     };
   }, []);
 
+  // Scroll customisation
   const scroll = (scrollBy: number) => {
     scrollRef.current?.scrollBy({ left: scrollBy, behavior: "smooth" });
   };
@@ -63,6 +68,7 @@ const RowTemplate: React.FC<RowItem> = ({ category, endpoint }) => {
 
       {/* Scroll buttons */}
       {scrolled && (
+        // Scroll left button
         <button
           onClick={() => scroll(-510)}
           className="absolute z-10 left-0 top-1/2 -translate-y-1/2 p-1 sm:p-2 duration-500 opacity-0 group-hover:opacity-100 bg-black/50 hover:bg-black/70 rounded-full"
@@ -71,6 +77,7 @@ const RowTemplate: React.FC<RowItem> = ({ category, endpoint }) => {
         </button>
       )}
 
+      {/* Scroll right button */}
       <button
         onClick={() => scroll(510)}
         className="absolute z-10 right-0 top-1/2 -translate-y-1/2 p-1 sm:p-2 duration-500 opacity-0 group-hover:opacity-100 bg-black/50 hover:bg-black/70 rounded-full"
@@ -108,12 +115,12 @@ const RowTemplate: React.FC<RowItem> = ({ category, endpoint }) => {
                   <button className="control-btn">
                     <FiPlus />
                   </button>
-                  {/* <button className="control-btn hidden lg:block">
+                  <button className="control-btn hidden lg:block">
                     <FiThumbsUp />
                   </button>
                   <button className="control-btn hidden lg:block">
                     <FiThumbsDown />
-                  </button> */}
+                  </button>
                 </div>
                 <button className="control-btn">
                   <FiChevronDown />
@@ -121,6 +128,7 @@ const RowTemplate: React.FC<RowItem> = ({ category, endpoint }) => {
               </div>
               {/* card info */}
               <p className="text-[12px] sm:text-base font-semibold">{movie.name || movie.title}</p>
+              Movie vote
               <span className="text-green-500 font-semibold text-[10px] sm:text-sm">
                 {Math.floor(movie.vote_average * 10)}% Match
               </span>
