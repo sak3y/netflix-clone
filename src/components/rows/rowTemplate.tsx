@@ -128,7 +128,7 @@ const RowTemplate: React.FC<RowItem> = ({ category, endpoint }) => {
               </div>
               {/* card info */}
               <p className="text-[12px] sm:text-base font-semibold">{movie.name || movie.title}</p>
-              Movie vote
+              {/* Movie rating average*/}
               <span className="text-green-500 font-semibold text-[10px] sm:text-sm">
                 {Math.floor(movie.vote_average * 10)}% Match
               </span>
