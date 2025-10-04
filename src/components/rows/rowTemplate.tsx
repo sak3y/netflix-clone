@@ -37,7 +37,7 @@ const RowTemplate: React.FC<RowItem> = ({ category, endpoint }) => {
     fetchMovies();
   }, [endpoint]);
 
-  // Scroll effect for movie row
+  // Scroll effect for movie row on button click
   const handleScroll = () => {
     if (!scrollRef.current) return;
     setScrolled(scrollRef.current.scrollLeft > 5);

@@ -1,5 +1,6 @@
 import { useRef, useEffect, useCallback } from "react";
 
+// My attemt to undestand useDebounce. The code below is AI generated
 export function useDebounce<T extends (...args: any[]) => void>(
   fn: T,
   delay: number

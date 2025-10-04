@@ -15,7 +15,7 @@ const Navbar = () => {
   // debouncer for event listnern
   const debouncedScroll = useDebounce(handleScroll, 10);
 
-  // Track scroll position
+  // Track scroll position + debouncer for performance
   useEffect(() => {
     window.addEventListener("scroll", debouncedScroll);
 

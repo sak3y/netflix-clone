@@ -26,7 +26,7 @@ const Trailer: React.FC = () => {
           className="object-cover scale-y-115"
           src={`https://vimeo.com/${video_id}`}
         />
-        {/* Gradient */}
+        {/* Bottom Gradient */}
         <div className="absolute -bottom-5 w-full h-50 bg-gradient-to-b from-transparent to-neutral-950" />
       </div>
 
@@ -40,8 +40,9 @@ const Trailer: React.FC = () => {
           <p className="md:block hidden">{overview}</p>
           <p className="block md:hidden">{overview_sm}</p>
         </div>
-        {/* Button group */}
+        {/* Trailer button group */}
         <div className="flex gap-4">
+          {/* Play btn */}
           <button
             onClick={() => {
               alert("Can't play");
@@ -51,6 +52,7 @@ const Trailer: React.FC = () => {
             <BsFillPlayFill className="text-xl sm:text-xl" />
             Play
           </button>
+          {/* More info btn */}
           <button className="btn bg-neutral-700 hover:bg-neutral-600">
             <BiInfoCircle className=" text-xl sm:text-xl" />
             More Info
@@ -58,8 +60,9 @@ const Trailer: React.FC = () => {
         </div>
       </article>
 
-      {/* Volume control */}
-      <div className="absolute bottom-4 right-2 lg:bottom-40">
+      {/* Volume controls */}
+      {/* Issue: button needs to be clicked twice for sound to unmute */}
+      <div className="absolute bottom-4 right-6 lg:bottom-40">
         {isMuted ? (
           <button className="sound-btn" onClick={() => setIsMuted(false)}>
             <BsVolumeMute size={16} />
