@@ -5,10 +5,9 @@ import { VscChevronLeft, VscChevronRight } from "react-icons/vsc";
 
 type RowItem = {
   category: string;
-  endpoint: string;
 };
 
-const RowTemplate: React.FC<RowItem> = ({ category, endpoint }) => {
+const RowTemplate: React.FC<RowItem> = ({ category }) => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [scrolled, setScrolled] = useState<boolean>(false);
 
@@ -23,19 +22,29 @@ const RowTemplate: React.FC<RowItem> = ({ category, endpoint }) => {
     }[]
   >([]);
 
+  const mapCategory: Record<string, string> = {
+    "Netflix Original": "NetflixOriginal",
+    "Top Rated": "TopRated",
+    "Fantasy": "Fantasy",
+    "Action": "Action",
+    "Comedy": "Comedy",
+    "Anime": "Anime",
+  };
+
   // Fetch movie endpoints
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const res = await fetch(endpoint);
+        const res = await fetch(`/.netlify/functions/endpoints?type=${mapCategory[category]}`);
         const data = await res.json();
         if (res.ok) setMovies(data.results);
       } catch (err) {
         console.error(err);
       }
     };
+
     fetchMovies();
-  }, [endpoint]);
+  }, []);
 
   // Scroll effect for movie row on button click
   const handleScroll = () => {

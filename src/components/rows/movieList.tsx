@@ -1,20 +1,13 @@
-import { Endpoints } from "../../endpoints";
-import Fantasy from "./fantasy";
-import NetflixOriginals from "./netflixOriginals";
-import Action from "./action";
-import TopRated from "./topRated";
-import Anime from "./anime";
-import Comedy from "./comedy";
+import RowTemplate from "./rowTemplate";
 
 const MovieList = () => {
+  const categories = ["Netflix Original", "Top Rated", "Fantasy", "Action", "Comedy", "Anime"];
+ 
   return (
     <div className="grid gap-8">
-      <NetflixOriginals endpoint={Endpoints.NetflixOriginal} />
-      <TopRated endpoint={Endpoints.TopRated} />
-      <Fantasy endpoint={Endpoints.Fantasy} />
-      <Comedy endpoint={Endpoints.Comedy} />
-      <Action endpoint={Endpoints.Action} />
-      <Anime endpoint={Endpoints.Anime} />
+      {categories.map((cat) => (
+        <RowTemplate key={cat} category={cat} />
+      ))}
     </div>
   );
 };
