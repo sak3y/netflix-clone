@@ -3,15 +3,15 @@ import { BsFillPlayFill } from "react-icons/bs";
 import { FiChevronDown, FiPlus, FiThumbsDown, FiThumbsUp } from "react-icons/fi";
 import { VscChevronLeft, VscChevronRight } from "react-icons/vsc";
 
-type RowItem = {
+type Card = {
   category: string;
 };
 
-const RowTemplate: React.FC<RowItem> = ({ category }) => {
+const RowTemplate: React.FC<Card> = ({ category }) => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [scrolled, setScrolled] = useState<boolean>(false);
 
-  // Movie object
+  // Movie category array
   const [movies, setMovies] = useState<
     {
       name: string;
@@ -22,22 +22,16 @@ const RowTemplate: React.FC<RowItem> = ({ category }) => {
     }[]
   >([]);
 
-  const mapCategory: Record<string, string> = {
-    "Netflix Original": "NetflixOriginal",
-    "Top Rated": "TopRated",
-    "Fantasy": "Fantasy",
-    "Action": "Action",
-    "Comedy": "Comedy",
-    "Anime": "Anime",
-  };
-
-  // Fetch movie endpoints
+  // Fetch movie from backend
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const res = await fetch(`/.netlify/functions/endpoints?type=${mapCategory[category]}`);
+        const res = await fetch(`/.netlify/functions/worker?category=${category}`);
         const data = await res.json();
+
         if (res.ok) setMovies(data.results);
+
+        console.log(data);
       } catch (err) {
         console.error(err);
       }
@@ -104,11 +98,17 @@ const RowTemplate: React.FC<RowItem> = ({ category }) => {
             key={movie.id}
             className="group/card relative cursor-pointer flex-shrink-0 p-1 w-32 sm:w-48 md:w-56 delay-10 duration-400 hover:scale-115 hover:z-1"
           >
+            {/* Poster image */}
             <img
-              src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+              src={
+                movie.poster_path
+                  ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+                  : "/fallback.png"
+              }
               alt={movie.name || movie.title}
               className="rounded-t"
             />
+            {/* Movie controls + details */}
             <div className="hidden absolute bottom-0 group-hover/card:flex flex-col px-2 py-3 bg-gradient-to-b from-transparent to-neutral-950 w-[96%]">
               {/* Controls */}
               <div className="w-full flex justify-between">
